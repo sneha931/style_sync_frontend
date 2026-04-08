@@ -1,4 +1,5 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import { Vibrant } from 'node-vibrant/node';
 
 type ColorSourceType = 'css' | 'image' | 'logo' | 'hero';
@@ -381,14 +382,10 @@ const extractPaletteFromImage = async (imageUrl: string): Promise<string[]> => {
 
 const scrapeStyles = async (url: string): Promise<ScrapedStyleData> => {
   const browser = await puppeteer.launch({
-    executablePath: puppeteer.executablePath(),
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-    ],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
   });
 
   try {
