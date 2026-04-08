@@ -4,6 +4,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
+    "postinstall": "npx puppeteer browsers install chrome",
     "fulltest": "npm run lint && npm run format",
     "build": "tsc",
     "start": "node dist/index.js",
@@ -12,7 +13,7 @@
     "dev": "concurrently \"npm run watch\" \"npm run server\"",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,md}'",
-    "prepare": "husky"
+    "prepare": " husky install || true"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": [
