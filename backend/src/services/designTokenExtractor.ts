@@ -380,7 +380,16 @@ const extractPaletteFromImage = async (imageUrl: string): Promise<string[]> => {
 };
 
 const scrapeStyles = async (url: string): Promise<ScrapedStyleData> => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    executablePath: puppeteer.executablePath(),
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+    ],
+  });
 
   try {
     const page = await browser.newPage();
