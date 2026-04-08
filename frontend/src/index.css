@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Token CSS Variables ─────────────────────────────────────────── */
+:root {
+  /* Colors — overridden at runtime by the token store */
+  --colors-primary: #1a1a1a;
+  --colors-secondary: #ffffff;
+  --colors-accent: #3b82f6;
+  --colors-neutral: #333333;
+
+  /* Typography */
+  --typography-headingFont: 'Inter', sans-serif;
+  --typography-bodyFont: 'Inter', sans-serif;
+  --typography-baseFontSize: 16px;
+
+  /* Spacing */
+  --spacing-base: 16px;
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    font-family: var(--typography-bodyFont);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ─── Custom Scrollbar ────────────────────────────────────────────────────── */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2a transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2a2a2a;
+  border-radius: 99px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #3a3a3a;
+}
+
+/* Global thin scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2a transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2a2a2a;
+  border-radius: 99px;
+}
+
+/* ─── Token-driven utility classes ────────────────────────────────────────── */
+@layer utilities {
+  .bg-token-primary   { background-color: var(--colors-primary); }
+  .bg-token-secondary { background-color: var(--colors-secondary); }
+  .bg-token-accent    { background-color: var(--colors-accent); }
+  .bg-token-neutral   { background-color: var(--colors-neutral); }
+
+  .text-token-primary   { color: var(--colors-primary); }
+  .text-token-secondary { color: var(--colors-secondary); }
+  .text-token-accent    { color: var(--colors-accent); }
+
+  .border-token-accent  { border-color: var(--colors-accent); }
+}

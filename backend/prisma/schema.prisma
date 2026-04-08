@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ScrapedSite {
+  id               String          @id @default(uuid())
+  url              String          @unique
+  extractionStatus String          @map("extraction_status")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  designToken      DesignToken?
+  lockedTokens     LockedToken[]
+  versionHistory   VersionHistory[]
+
+  @@map("scraped_sites")
+}
+
+model DesignToken {
+  id            String      @id @default(uuid())
+  siteId        String      @unique @map("site_id")
+  colors        Json
+  typography    Json
+  spacing       Json
+  analysisScore Json?       @map("analysis_score")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  site          ScrapedSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("design_tokens")
+}
+
+model LockedToken {
+  id        String      @id @default(uuid())
+  siteId    String      @map("site_id")
+  tokenKey  String      @map("token_key")
+  isLocked  Boolean     @default(true) @map("is_locked")
+  site      ScrapedSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@unique([siteId, tokenKey])
+
+  @@map("locked_tokens")
+}
+
+model VersionHistory {
+  id         String      @id @default(uuid())
+  siteId     String      @map("site_id")
+  version    Int
+  beforeState Json       @map("before_state")
+  afterState Json        @map("after_state")
+  changes    Json
+  timestamp  DateTime    @default(now())
+  site       ScrapedSite @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@unique([siteId, version])
+
+  @@map("version_history")
+}
